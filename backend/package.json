@@ -12,5 +12,8 @@
     "backend"
   ],
   "author": "Vivek Parde",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "^3.0.3"
+  }
 }
