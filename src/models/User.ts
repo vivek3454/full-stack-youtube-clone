@@ -32,7 +32,6 @@ const userSchema = new Schema<User>({
     timestamps: true,
 });
 
-userSchema.index({ clerkId: 1 }, { unique: true });
 
 const User = models?.User || model<User>("User",userSchema);
 export default User;
