@@ -1,12 +1,11 @@
-import { connectToDatabase } from "@/lib/db";
-import User from "@/models/User";
+import { db } from "@/db";
+import { users } from "@/db/schema";
+import { ratelimit } from "@/lib/ratelimit";
 import { auth } from "@clerk/nextjs/server";
 import { initTRPC, TRPCError } from "@trpc/server";
+import { eq } from "drizzle-orm";
 import { cache } from "react";
 import superjson from "superjson";
-import { Redis } from "@upstash/redis";
-import { Ratelimit } from "@upstash/ratelimit";
-import { ratelimit } from "@/lib/ratelimit";
 
 export const createTRPCContext = cache(async () => {
   const { userId } = await auth();
@@ -34,19 +33,18 @@ export const protectedProcedure = t.procedure.use(async function isAuthed(
   opts
 ) {
   const { ctx } = opts;
+  
   if (!ctx.clerkUserId) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
 
-  await connectToDatabase();
-
-  const user = await User.findOne({ clerkId: ctx.clerkUserId });
+  const [user] = await db.select().from(users).where(eq(users.clerkId, ctx.clerkUserId));
 
   if (!user) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
 
-  const { success } = await ratelimit.limit(user._id);
+  const { success } = await ratelimit.limit(user.id);
 
   if(!success) {
     throw new TRPCError({ code: "TOO_MANY_REQUESTS" });

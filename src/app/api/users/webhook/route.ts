@@ -1,8 +1,9 @@
-import { Webhook } from "svix";
-import { headers } from "next/headers";
+import { db } from "@/db";
+import { users } from "@/db/schema";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import User from "@/models/User";
-import { connectToDatabase } from "@/lib/db";
+import { eq } from "drizzle-orm";
+import { headers } from "next/headers";
+import { Webhook } from "svix";
 
 export async function POST(req: Request) {
   const SIGNING_SECRET = process.env.CLERK_SIGNING_SECRET;
@@ -53,16 +54,17 @@ export async function POST(req: Request) {
   // For this guide, log payload to console
   const eventType = evt.type;
 
-  await connectToDatabase();
-
   if (eventType === "user.created") {
     const { data } = evt;
 
-    await User.create({
-      clerkId: data.id,
-      name: `${data.first_name} ${data.last_name}`,
-      imageUrl: data.image_url,
-    });
+    await db
+      .insert(users)
+      .values({
+        clerkId: data.id,
+        name: `${data.first_name} ${data.last_name}`,
+        imageUrl: data.image_url,
+      })
+      .onConflictDoNothing();
   }
 
   if (eventType === "user.deleted") {
@@ -72,20 +74,19 @@ export async function POST(req: Request) {
       return new Response("Missing user id", { status: 400 });
     }
 
-    await User.findOneAndDelete({ clerkId: data.id });
+    await db.delete(users).where(eq(users.clerkId, data.id));
   }
 
   if (eventType === "user.updated") {
     const { data } = evt;
 
-    await User.findOneAndUpdate(
-      { clerkId: data.id },
-      {
-        clerkId: data.id,
+    await db
+      .update(users)
+      .set({
         name: `${data.first_name} ${data.last_name}`,
         imageUrl: data.image_url,
-      }
-    );
+      })
+      .where(eq(users.clerkId, data.id));
   }
 
   return new Response("Webhook received", { status: 200 });
