@@ -11,12 +11,12 @@ interface PageProps {
 
 const Page = async ({ searchParams }: PageProps) => {
   const { categoryId } = await searchParams;
-  // void trpc.categories.getMany.prefetch();
-  try {
-    await trpc.categories.getMany.prefetch();
-  } catch (error) {
-    console.error("Prefetch failed:", error);
-  }
+  void trpc.categories.getMany.prefetch();
+  // try {
+  //   await trpc.categories.getMany.prefetch();
+  // } catch (error) {
+  //   console.error("Prefetch failed:", error);
+  // }
 
   return (
     <div>

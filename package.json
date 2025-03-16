@@ -5,7 +5,7 @@
   "scripts": {
     "dev:all": "concurrently \"yarn run dev:webhook\" \"yarn run dev\"",
     "dev": "next dev",
-    "dev:webhook": "ngrok http --url=lizard-arriving-lionfish.ngrok-free.app 3001",
+    "dev:webhook": "ngrok http --url=lizard-arriving-lionfish.ngrok-free.app 3000",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
