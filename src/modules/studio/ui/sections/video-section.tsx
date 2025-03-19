@@ -1,6 +1,7 @@
 "use client";
 
 import { InfiniteScroll } from "@/components/infinite-scroll";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -21,11 +22,66 @@ import { ErrorBoundary } from "react-error-boundary";
 
 export const VideoSection = () => {
   return (
-    <Suspense fallback={<p>Loading...</p>}>
+    <Suspense fallback={<VideoSectionSkeleton />}>
       <ErrorBoundary fallback={<p>Error...</p>}>
         <VideoSectionSuspense />
       </ErrorBoundary>
     </Suspense>
+  );
+};
+
+const VideoSectionSkeleton = () => {
+  return (
+    <>
+      <div className="border-y">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="pl-6 w-[510px]">Video</TableHead>
+              <TableHead>Visibility</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Date</TableHead>
+              <TableHead>Views</TableHead>
+              <TableHead>Comments</TableHead>
+              <TableHead className="pr-6">Likes</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {Array.from({ length: 5 }).map((_, index) => (
+              <TableRow key={index}>
+                <TableCell className="pl-6">
+                  <div className="flex items-center gap-4">
+                    <Skeleton className="h-20 w-36" />
+                    <div className="flex flex-col gap-2">
+                      <Skeleton className="h-4 w-[100px]" />
+                      <Skeleton className="h-3 w-[150px]" />
+                    </div>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="h-3 w-[70px]" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="h-3 w-[70px]" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="h-3 w-[80px]" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="h-3 w-[50px]" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="h-3 w-[50px]" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="h-3 w-[50px]" />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    </>
   );
 };
 
