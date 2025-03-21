@@ -17,7 +17,7 @@ export const videosRouter = createTRPCRouter({
       const { workflowRunId } = await workflow.trigger({
         url: `${process.env.UPSTASH_WORKFLOW_URL}/api/videos/workflows/title`,
         body: { userId, videoId },
-        retries:3
+        retries: 3,
       });
 
       return workflowRunId;
@@ -30,20 +30,20 @@ export const videosRouter = createTRPCRouter({
       const { workflowRunId } = await workflow.trigger({
         url: `${process.env.UPSTASH_WORKFLOW_URL}/api/videos/workflows/description`,
         body: { userId, videoId },
-        retries:3
+        retries: 3,
       });
 
       return workflowRunId;
     }),
   generateThumbnail: protectedProcedure
-    .input(z.object({ id: z.string().uuid() }))
+    .input(z.object({ id: z.string().uuid(), prompt: z.string().min(10) }))
     .mutation(async ({ ctx, input }) => {
       const { id: userId } = ctx.user;
-      const { id: videoId } = input;
+      const { id: videoId ,prompt} = input;
       const { workflowRunId } = await workflow.trigger({
-        url: `${process.env.UPSTASH_WORKFLOW_URL}/api/videos/workflows/title`,
-        body: { userId, videoId },
-        retries:3
+        url: `${process.env.UPSTASH_WORKFLOW_URL}/api/videos/workflows/thumbnail`,
+        body: { userId, videoId,prompt },
+        retries: 3,
       });
 
       return workflowRunId;
