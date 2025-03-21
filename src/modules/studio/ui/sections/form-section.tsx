@@ -35,10 +35,12 @@ import {
   CopyIcon,
   Globe2Icon,
   ImagePlusIcon,
+  Loader2Icon,
   LockIcon,
   MoreVerticalIcon,
   RotateCcwIcon,
   SparkleIcon,
+  SparklesIcon,
   TrashIcon,
 } from "lucide-react";
 import Image from "next/image";
@@ -105,6 +107,38 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
       utils.studio.getMany.invalidate();
       utils.studio.getOne.invalidate({ id: videoId });
       toast.success("Thumbnail restored");
+    },
+    onError: () => {
+      toast.error("Something went wrong");
+    },
+  });
+
+  const generateTitle = trpc.videos.generateTitle.useMutation({
+    onSuccess: () => {
+      toast.success("Background job started", {
+        description: "This may take some time",
+      });
+    },
+    onError: () => {
+      toast.error("Something went wrong");
+    },
+  });
+  const generateDescription = trpc.videos.generateDescription.useMutation({
+    onSuccess: () => {
+      toast.success("Background job started", {
+        description: "This may take some time",
+      });
+    },
+    onError: () => {
+      toast.error("Something went wrong");
+    },
+  });
+
+  const generateThumbnail = trpc.videos.generateThumbnail.useMutation({
+    onSuccess: () => {
+      toast.success("Background job started", {
+        description: "This may take some time",
+      });
     },
     onError: () => {
       toast.error("Something went wrong");
@@ -180,7 +214,25 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
                 name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Title</FormLabel>
+                    <FormLabel>
+                      <div className="flex items-center gap-x-2">
+                        Title
+                        <Button
+                          size="icon"
+                          variant="outline"
+                          type="button"
+                          className="rounded-full size-6 [&_svg]:size-3"
+                          onClick={() => generateTitle.mutate({ id: videoId })}
+                          disabled={generateTitle.isPending || !video.muxTrackId}
+                        >
+                          {generateTitle.isPending ? (
+                            <Loader2Icon className="animate-spin" />
+                          ) : (
+                            <SparklesIcon />
+                          )}
+                        </Button>
+                      </div>
+                    </FormLabel>
                     <FormControl>
                       <Input placeholder="Add title to your video" {...field} />
                     </FormControl>
@@ -193,7 +245,25 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Description</FormLabel>
+                    <FormLabel>
+                      <div className="flex items-center gap-x-2">
+                        Description
+                        <Button
+                          size="icon"
+                          variant="outline"
+                          type="button"
+                          className="rounded-full size-6 [&_svg]:size-3"
+                          onClick={() => generateDescription.mutate({ id: videoId })}
+                          disabled={generateDescription.isPending || !video.muxTrackId}
+                        >
+                          {generateDescription.isPending ? (
+                            <Loader2Icon className="animate-spin" />
+                          ) : (
+                            <SparklesIcon />
+                          )}
+                        </Button>
+                      </div>
+                    </FormLabel>
                     <FormControl>
                       <Textarea
                         {...field}
@@ -241,7 +311,11 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
                                 <ImagePlusIcon className="size-4 mr-2" />
                                 Change
                               </DropdownMenuItem>
-                              <DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() =>
+                                  generateThumbnail.mutate({ id: videoId })
+                                }
+                              >
                                 <SparkleIcon className="size-4 mr-2" />
                                 AI-generated
                               </DropdownMenuItem>
@@ -291,7 +365,7 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
               />
             </div>
             <div className="flex flex-col gap-y-8 lg:col-span-2">
-              <div className="flex flex-col gap-4 bg-[#F9F9F9] rounded-xl overflow-hidden h-fit">
+              <div className="flex flex-col gap-4 bg-[#F9F9F9] dark:bg-accent rounded-xl overflow-hidden h-fit">
                 <div className="aspect-video overflow-hidden relative">
                   <VideoPlayer
                     playbackId={video.muxPlaybackId}
