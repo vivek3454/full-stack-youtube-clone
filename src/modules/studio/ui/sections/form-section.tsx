@@ -203,7 +203,7 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
   // TODO: Change if deploying outside of VERCEL
   const fullUrl = `${
     process.env.VERCEL_URL || "http://localhost:3000"
-  }/video/${videoId}`;
+  }/videos/${videoId}`;
   const [isCopied, setIsCopied] = useState(false);
 
   const onCopy = async () => {
