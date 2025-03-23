@@ -11,8 +11,6 @@ export const videoViewsRouter = createTRPCRouter({
       const { id: userId } = ctx.user;
       const { videoId } = input;
 
-      console.log("test video view create 1");
-
       const [existingVideoView] = await db
         .select()
         .from(videoViews)
@@ -25,14 +23,11 @@ export const videoViewsRouter = createTRPCRouter({
           return existingVideoView;
         }
         
-        console.log("test video view create 2");
-      const [createVideoView] = await db
+      const [createdVideoView] = await db
         .insert(videoViews)
         .values({ userId, videoId })
         .returning();
 
-      console.log("test video view create 3");
-
-      return createVideoView;
+      return createdVideoView;
     }),
 });
