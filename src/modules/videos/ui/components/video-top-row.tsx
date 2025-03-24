@@ -58,7 +58,7 @@ export const VideoTopRow = ({ video }: VideoTopRowProps) => {
       <h1 className="text-xl font-semibold">{video.title}</h1>
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
         <VideoOwner user={video.user} videoId={video.id} />
-        <div className="flex overflow-auto sm:min-w-[calc(50%-6px)] sm:justify-end sm:overflow-visible pb-2 -mb-2 sm:pb-0 sm:mb-0">
+        <div className="flex gap-2 overflow-auto sm:min-w-[calc(50%-6px)] sm:justify-end sm:overflow-visible pb-2 -mb-2 sm:pb-0 sm:mb-0">
           <VideoReactions
             videoId={video.id}
             likes={video.likeCount}
@@ -68,7 +68,7 @@ export const VideoTopRow = ({ video }: VideoTopRowProps) => {
           <VideoMenu
             videoId={video.id}
             variant="secondary"
-            onRemove={() => {}}
+            // onRemove={() => {}}
           />
         </div>
       </div>
