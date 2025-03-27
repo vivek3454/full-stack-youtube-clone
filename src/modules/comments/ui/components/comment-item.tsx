@@ -153,7 +153,7 @@ export const CommentItem = ({
             )}
           </div>
         </div>
-        {comment.user.clerkId === userId  && (
+        {/* {comment.user.clerkId === userId  && variant === "comment" && ( */}
           <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="size-8">
@@ -180,7 +180,7 @@ export const CommentItem = ({
               )}
             </DropdownMenuContent>
           </DropdownMenu>
-        )}
+        {/* )} */}
       </div>
       {isReplyOpen && variant === "comment" && (
         <div className="mt-4 pl-14">

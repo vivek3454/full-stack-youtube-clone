@@ -20,15 +20,19 @@ interface VideoMenuProps {
   onRemove?: () => void;
 }
 
-export const VideoMenu = ({ videoId, variant, onRemove }: VideoMenuProps) => {
+export const VideoMenu = ({
+  videoId,
+  variant = "ghost",
+  onRemove,
+}: VideoMenuProps) => {
   const onShare = () => {
     // TODO: Change if deploying outside of VERCEL
-  const fullUrl = `${
-    process.env.VERCEL_URL || "http://localhost:3000"
-  }/video/${videoId}`;
-  navigator.clipboard.writeText(fullUrl);
-  toast.success("Link copied to the clipboard")
-  }
+    const fullUrl = `${
+      process.env.VERCEL_URL || "http://localhost:3000"
+    }/video/${videoId}`;
+    navigator.clipboard.writeText(fullUrl);
+    toast.success("Link copied to the clipboard");
+  };
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
