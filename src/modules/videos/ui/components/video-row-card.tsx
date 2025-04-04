@@ -8,12 +8,13 @@ import { UserAvatar } from "@/components/user-avatar";
 import { cn } from "@/lib/utils";
 import { UserInfo } from "@/modules/users/ui/components/user-info";
 import { cva, type VariantProps } from "class-variance-authority";
+import { formatDistanceToNowStrict } from "date-fns";
+import { DotIcon } from "lucide-react";
 import Link from "next/link";
 import { useMemo } from "react";
+import { VideoGetManyOutput } from "../../types";
 import { VideoMenu } from "./video-menu";
 import { VideoThumbnail, VideoThumbnailSkeleton } from "./video-thumbnail";
-import { VideoGetManyOutput } from "../../types";
-import { DotIcon } from "lucide-react";
 
 const videoRowCardVariants = cva("group flex min-w-0", {
   variants: {
@@ -44,7 +45,9 @@ interface VideoRowCardProps extends VariantProps<typeof videoRowCardVariants> {
   onRemove?: () => void;
 }
 
-export const VideoRowCardSkeleton = ({ size }: VariantProps<typeof videoRowCardVariants>) => {
+export const VideoRowCardSkeleton = ({
+  size="default",
+}: VariantProps<typeof videoRowCardVariants>) => {
   return (
     <div className={videoRowCardVariants({ size })}>
       {/* Thumbnail skeleton */}
@@ -79,18 +82,16 @@ export const VideoRowCardSkeleton = ({ size }: VariantProps<typeof videoRowCardV
   );
 };
 
-export const VideoRowCard = ({ data, size, onRemove }: VideoRowCardProps) => {
+export const VideoRowCard = ({ data, size="default", onRemove }: VideoRowCardProps) => {
   const compactViews = useMemo(() => {
     return Intl.NumberFormat("en", { notation: "compact" }).format(
       data.viewCount
     );
   }, [data.viewCount]);
 
-  const compactLikes = useMemo(() => {
-    return Intl.NumberFormat("en", { notation: "compact" }).format(
-      data.likeCount
-    );
-  }, [data.likeCount]);
+  const compactDate = useMemo(() => {
+    return formatDistanceToNowStrict(data.createdAt, { addSuffix: true });
+  }, [data.createdAt]);
 
   return (
     <div className={cn(videoRowCardVariants({ size }))}>
@@ -119,7 +120,7 @@ export const VideoRowCard = ({ data, size, onRemove }: VideoRowCardProps) => {
             </h3>
             {size === "default" && (
               <p className="text-xs text-muted-foreground mt-1 flex items-center">
-                {compactViews} views <DotIcon /> {compactLikes} likes
+                {compactViews} views <DotIcon /> {compactDate}
               </p>
             )}
             {size === "default" && (
@@ -153,7 +154,7 @@ export const VideoRowCard = ({ data, size, onRemove }: VideoRowCardProps) => {
 
             {size === "compact" && (
               <p className="text-xs text-muted-foreground mt-1 flex items-center">
-                {compactViews} views <DotIcon /> {compactLikes} likes
+                {compactViews} views <DotIcon /> {compactDate}
               </p>
             )}
           </Link>

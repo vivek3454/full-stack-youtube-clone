@@ -8,9 +8,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { UserAvatar } from "@/components/user-avatar";
+import { cn } from "@/lib/utils";
 import { trpc } from "@/trpc/client";
 import { useAuth, useClerk } from "@clerk/nextjs";
-import { formatDistanceToNow } from "date-fns";
+import { formatDistanceToNowStrict } from "date-fns";
 import {
   ChevronDownIcon,
   ChevronUpIcon,
@@ -21,10 +22,9 @@ import {
   Trash2Icon,
 } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 import { toast } from "sonner";
 import { CommentsGetManyOutput } from "../../types";
-import { cn } from "@/lib/utils";
-import { useState } from "react";
 import { CommentForm } from "./comment-form";
 import { CommentReplies } from "./comment-replies";
 
@@ -101,7 +101,7 @@ export const CommentItem = ({
                 {comment.user.name}
               </span>
               <span className="text-xs text-muted-foreground">
-                {formatDistanceToNow(comment.createdAt, { addSuffix: true })}
+                {formatDistanceToNowStrict(comment.createdAt, { addSuffix: true })}
               </span>
             </div>
           </Link>

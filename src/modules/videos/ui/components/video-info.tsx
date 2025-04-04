@@ -1,12 +1,12 @@
-import { useMemo } from "react";
-import { formatDistanceToNow } from "date-fns";
-import { VideoGetManyOutput } from "../../types";
-import Link from "next/link";
+import { Skeleton } from "@/components/ui/skeleton";
 import { UserAvatar } from "@/components/user-avatar";
 import { UserInfo } from "@/modules/users/ui/components/user-info";
+import { formatDistanceToNowStrict } from "date-fns";
 import { DotIcon } from "lucide-react";
+import Link from "next/link";
+import { useMemo } from "react";
+import { VideoGetManyOutput } from "../../types";
 import { VideoMenu } from "./video-menu";
-import { Skeleton } from "@/components/ui/skeleton";
 
 interface VideoInfoProps {
   data: VideoGetManyOutput["items"][number];
@@ -33,7 +33,7 @@ export const VideoInfo = ({ data, onRemove }: VideoInfoProps) => {
   }, [data.viewCount]);
 
   const compactDate = useMemo(() => {
-    return formatDistanceToNow(data.createdAt, { addSuffix: true });
+    return formatDistanceToNowStrict(data.createdAt, { addSuffix: true });
   }, [data.createdAt]);
 
   return (
@@ -51,7 +51,7 @@ export const VideoInfo = ({ data, onRemove }: VideoInfoProps) => {
           <UserInfo name={data.user.name} />
         </Link>
         <Link href={`/videos/${data.id}`}>
-          <p className="text-sm text-gray-600 mt-1 flex items-center">
+          <p className="text-xs text-gray-600 mt-1 flex items-center">
             {compactViews} views <DotIcon /> {compactDate}
           </p>
         </Link>

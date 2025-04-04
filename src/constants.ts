@@ -1,1 +1,2 @@
-export const DEFAULT_LIMIT = 1
+export const DEFAULT_LIMIT = 5;
+export const APP_URL = process.env.VERCEL_URL; // Change if deploying outside vercel
