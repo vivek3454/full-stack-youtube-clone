@@ -350,7 +350,7 @@ export const playlistVideos = pgTable(
         onDelete: "cascade",
       })
       .notNull(),
-    position: integer("position").notNull(),
+    // position: integer("position").notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull(),
   },
