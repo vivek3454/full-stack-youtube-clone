@@ -20,17 +20,17 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
-export const VideoSection = () => {
+export const VideosSection = () => {
   return (
-    <Suspense fallback={<VideoSectionSkeleton />}>
+    <Suspense fallback={<VideosSectionSkeleton />}>
       <ErrorBoundary fallback={<p>Error...</p>}>
-        <VideoSectionSuspense />
+        <VideosSectionSuspense />
       </ErrorBoundary>
     </Suspense>
   );
 };
 
-const VideoSectionSkeleton = () => {
+const VideosSectionSkeleton = () => {
   return (
     <>
       <div className="border-y">
@@ -85,7 +85,7 @@ const VideoSectionSkeleton = () => {
   );
 };
 
-const VideoSectionSuspense = () => {
+const VideosSectionSuspense = () => {
   const [videos, query] = trpc.studio.getMany.useSuspenseInfiniteQuery(
     {
       limit: DEFAULT_LIMIT,
@@ -157,9 +157,9 @@ const VideoSectionSuspense = () => {
                     <TableCell className="text-sm truncate">
                       {format(new Date(video.createdAt), "dd MMM yyyy")}
                     </TableCell>
-                    <TableCell className="text-right">Views</TableCell>
-                    <TableCell className="text-right">Comments</TableCell>
-                    <TableCell className="text-right pr-6">Likes</TableCell>
+                    <TableCell className="text-right">{video.viewCount}</TableCell>
+                    <TableCell className="text-right">{video.commentCount}</TableCell>
+                    <TableCell className="text-right pr-6">{video.likeCount}</TableCell>
                   </TableRow>
                 </Link>
               ))}
