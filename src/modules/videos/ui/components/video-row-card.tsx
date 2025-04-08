@@ -9,7 +9,6 @@ import { cn } from "@/lib/utils";
 import { UserInfo } from "@/modules/users/ui/components/user-info";
 import { cva, type VariantProps } from "class-variance-authority";
 import { formatDistanceToNowStrict } from "date-fns";
-import { DotIcon } from "lucide-react";
 import Link from "next/link";
 import { useMemo } from "react";
 import { VideoGetManyOutput } from "../../types";
@@ -120,7 +119,7 @@ export const VideoRowCard = ({ data, size="default", onRemove }: VideoRowCardPro
             </h3>
             {size === "default" && (
               <p className="text-xs text-muted-foreground mt-1 flex items-center">
-                {compactViews} views <DotIcon /> {compactDate}
+                {compactViews} views &bull; {compactDate}
               </p>
             )}
             {size === "default" && (
@@ -154,7 +153,7 @@ export const VideoRowCard = ({ data, size="default", onRemove }: VideoRowCardPro
 
             {size === "compact" && (
               <p className="text-xs text-muted-foreground mt-1 flex items-center">
-                {compactViews} views <DotIcon /> {compactDate}
+                {compactViews} views &bull; {compactDate}
               </p>
             )}
           </Link>

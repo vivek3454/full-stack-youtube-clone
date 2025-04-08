@@ -2,7 +2,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { UserAvatar } from "@/components/user-avatar";
 import { UserInfo } from "@/modules/users/ui/components/user-info";
 import { formatDistanceToNowStrict } from "date-fns";
-import { DotIcon } from "lucide-react";
 import Link from "next/link";
 import { useMemo } from "react";
 import { VideoGetManyOutput } from "../../types";
@@ -52,7 +51,7 @@ export const VideoInfo = ({ data, onRemove }: VideoInfoProps) => {
         </Link>
         <Link href={`/videos/${data.id}`}>
           <p className="text-xs text-gray-600 mt-1 flex items-center">
-            {compactViews} views <DotIcon /> {compactDate}
+            {compactViews} views &bull; {compactDate}
           </p>
         </Link>
       </div>
