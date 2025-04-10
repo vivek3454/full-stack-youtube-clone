@@ -94,7 +94,7 @@ export const VideoRowCard = ({ data, size="default", onRemove }: VideoRowCardPro
 
   return (
     <div className={cn(videoRowCardVariants({ size }))}>
-      <Link
+      <Link prefetch
         href={`/videos/${data.id}`}
         className={cn(thumbnailVariants({ size }))}
       >
@@ -108,7 +108,7 @@ export const VideoRowCard = ({ data, size="default", onRemove }: VideoRowCardPro
       {/* Info */}
       <div className="flex-1 min-w-0">
         <div className="flex justify-between gap-x-2">
-          <Link href={`/videos/${data.id}`} className="flex-1 min-w-0">
+          <Link prefetch href={`/videos/${data.id}`} className="flex-1 min-w-0">
             <h3
               className={cn(
                 "font-medium line-clamp-2",
