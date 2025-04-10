@@ -2,11 +2,11 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface SubscriptionButtonProps {
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled: boolean;
   isSubscribed: boolean;
   className?: string;
-  size?: string;
+  size?: "default" | "sm" | "lg" | "icon"; 
 }
 
 export const SubscriptionButton = ({

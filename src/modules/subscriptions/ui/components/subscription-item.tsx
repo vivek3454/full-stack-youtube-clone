@@ -50,7 +50,7 @@ export const SubscriptionItem = ({
 
           <SubscriptionButton
             size="sm"
-            onClick={(e) => {
+            onClick={(e:React.MouseEvent<HTMLButtonElement>) => {
               e.preventDefault();
               onUnsubscribe();
             }}

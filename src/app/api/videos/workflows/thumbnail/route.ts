@@ -32,6 +32,7 @@ export const { POST } = serve(async (context) => {
   });
 
   // generate thumbnail using Gemini AI
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const result = await context.run("generate-thumbnail", async () => {
     const resp = await fetch("https://api.deepai.org/api/text2img", {
       method: "POST",
