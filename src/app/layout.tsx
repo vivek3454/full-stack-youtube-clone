@@ -8,7 +8,7 @@ import { Toaster } from "@/components/ui/sonner";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "NextTube – Modern Video Platform Built with Next.js",
+  title: "NextTube",
   description:
     "NextTube is a full-featured, scalable video platform powered by Next.js, tRPC, and Mux. Enjoy real-time video processing, smart content management, and seamless viewer interaction—all in one modern YouTube clone.",
 };
@@ -21,6 +21,9 @@ export default function RootLayout({
   return (
     <ClerkProvider afterSignOutUrl="/">
       <html lang="en">
+        <head>
+          <link rel="icon" href="/yt-logo.svg" />
+        </head>
         <body className={`${inter.className}`}>
           <TRPCProvider>
             {children}
